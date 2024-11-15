@@ -33,7 +33,6 @@ export const getProducts = async ({
       : 'https://dummyjson.com/products'
 
     const url = `${baseUrl}?${params.toString()}`
-
     const response = await fetch(url)
 
     if (!response.ok) {
@@ -48,9 +47,23 @@ export const getProducts = async ({
     const { success, data } = getProductsResponseSchema.safeParse(result)
 
     if (success) {
+      // 추가한 항목
+      // 1. q(쿼리데이터 즉 검색어)가 존재할 경우에만
+      // 2. title에서 사용자가 검색한 q가 포함된 항목만 필터링
+      // 3. 대소문자를 구분할 필요가 없도록 toLowerCase 사용
+      // 4. 검색어가 없을 경우 모든 데이터 그대로 반환
+      const titleFiltered = q
+        ? data.products.filter((product) => 
+            product.title.toLowerCase().includes(q.toLowerCase())
+          ) 
+        : data.products
+
       return {
         status: 'success',
-        data: data,
+        data: {
+          ...data,
+          products:titleFiltered
+        },
       }
     } else {
       return {
