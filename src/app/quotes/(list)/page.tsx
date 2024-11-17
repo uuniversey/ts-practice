@@ -1,11 +1,13 @@
 'use client'
 
 import { useInfiniteQuotes } from '@/app/quotes/hooks/use-infinite-quotes'
+import { useFavoriteQuotes } from '../hooks/use-favorite-quotes'
 import { QuoteCard } from '@/app/quotes/components/quote-card'
 import { useEffect, useState } from 'react'
 
 export default function QuotesPage() {
   const { data, isLoading, error, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuotes()
+  const { isFavorite, onFavorite } = useFavoriteQuotes()
   const [ isScrolling, setIsScrolling ] = useState(false)
 
   // 1. 스크롤이 60% 지나면
@@ -53,10 +55,8 @@ export default function QuotesPage() {
             key={quote.id}
             quote={quote.quote}
             author={quote.author}
-            isFavorite={false}
-            onFavorite={() => {
-              console.log('Clicked on favorite')
-            }}
+            isFavorite={isFavorite(quote.id)}
+            onFavorite={onFavorite(quote)}
           />)
       )}
     </div>

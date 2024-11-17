@@ -3,7 +3,7 @@ import { useFavoriteQuotes } from '@/app/quotes/hooks/use-favorite-quotes'
 import { QuoteCard } from '@/app/quotes/components/quote-card'
 
 export default function FavoriteQuotesPage() {
-  const favoriteQuotes = useFavoriteQuotes()
+  const { favoriteQuotes, isFavorite, onFavorite } = useFavoriteQuotes()
 
   return (
     <div>
@@ -18,10 +18,8 @@ export default function FavoriteQuotesPage() {
             key={quote.id}
             quote={quote.quote}
             author={quote.author}
-            isFavorite={true}
-            onFavorite={() => {
-              console.log('Clicked on favorite')
-            }}
+            isFavorite={isFavorite(quote.id)}
+            onFavorite={onFavorite(quote)}
           />
         ))}
       </ul>
