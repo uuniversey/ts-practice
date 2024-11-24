@@ -18,6 +18,7 @@ export function QuoteCard({
   onFavorite,
   ...props
 }: QuoteCardProps & HTMLAttributes<HTMLDivElement>) {
+
   return (
     <main className={cn('relative p-5 border-b', className)} {...props}>
       <div className={'w-11/12'}>
